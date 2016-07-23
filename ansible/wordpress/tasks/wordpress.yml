@@ -1,0 +1,39 @@
+---
+- name: install wp-cli
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /usr/local/bin/wp
+    force: yes
+    mode: "a+x"
+
+- name: copy theme
+  copy:
+    src: files/parallax-one.zip
+    dest: /home/ubuntu/parallax-one.zip
+    owner: ubuntu
+    group: ubuntu
+    mode: 0644
+
+- name: download wordpress
+  command: wp core download --path=/home/ubuntu/{{domain}}
+  become_user: ubuntu
+  register: download_result
+  failed_when: "'already' not in download_result.stderr and 'Success' not in download_result.stdout"
+
+- name: config wordpress
+  command: wp core config --path=/home/ubuntu/{{domain}} --dbname={{db_name}} --dbuser={{db_user}} --dbpass={{db_password}}
+  become_user: ubuntu
+  register: config_result
+  failed_when: "'already' not in config_result.stderr and 'Success' not in config_result.stdout"
+
+- name: install wordpress
+  command: wp core install --path=/home/ubuntu/{{domain}} --url={{domain}} --title={{title}} --admin_user={{admin_name}} --admin_password={{admin_password}} --admin_email={{admin_email}}
+  become_user: ubuntu
+  register: install_result
+  failed_when: "'already' not in install_result.stdout and 'Success' not in install_result.stdout"
+
+- name: install parallax one
+  command: wp theme install /home/ubuntu/parallax-one.zip --activate --path=/home/ubuntu/{{domain}}
+  become_user: ubuntu
+  register: install_parallax_result
+  failed_when: "'already' not in install_result.stdout and 'Success' not in install_parallax_result.stdout"

@@ -1,0 +1,17 @@
+---
+- name: Configure Wordpress Sites available.
+  template:
+    src: wordpress.conf.j2
+    dest: "/etc/apache2/sites-available/{{domain}}.conf"
+
+- name: a2enmod rewrite
+  command: a2enmod rewrite
+  become: true
+  notify:
+  - restart apache2
+
+- name: a2ensite {{domain}}
+  command: a2ensite {{domain}}
+  become: true
+  notify:
+  - restart apache2

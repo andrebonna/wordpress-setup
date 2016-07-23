@@ -1,0 +1,10 @@
+- name: Ecopoints Site Installation
+  hosts: tag_Name_bipilas
+  gather_facts: yes
+  become: yes
+  pre_tasks:
+    - name: Gather EC2 facts
+      action: ec2_facts
+    - include: pre.yml
+  roles:
+    - wordpress
