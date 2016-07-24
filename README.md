@@ -32,7 +32,7 @@ Playbook Variables
     db_user: #Database User
     db_password: #Database User password
     db_host: #Optional
-    domain: #Domain name
+    domain: #Domain name WITHOUT WWW
     aws_ec2_name: The Tag Name of AWS EC2 Machine
 
 
