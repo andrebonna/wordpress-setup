@@ -1,5 +1,5 @@
-- name: Ecopoints Site Installation
-  hosts: tag_Name_bipilas
+- name: Wordpress Site Installation
+  hosts: tag_Name_{{aws_ec2_name}}
   gather_facts: yes
   become: yes
   pre_tasks:

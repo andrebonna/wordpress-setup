@@ -23,6 +23,7 @@ Wordpress Variables: TODO
     db_password: #Database User password
     db_host: #Optional
     domain: #Domain name
+    aws_ec2_name: The Tag Name of AWS EC2 Machine 
 
 
 Dependencies
