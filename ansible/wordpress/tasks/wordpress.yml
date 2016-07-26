@@ -37,3 +37,4 @@
   become_user: ubuntu
   register: install_parallax_result
   failed_when: "'already' not in install_result.stdout and 'Success' not in install_parallax_result.stdout"
+  notify: chown wordpress

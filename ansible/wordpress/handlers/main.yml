@@ -1,4 +1,9 @@
 ---
+- name: chown wordpress
+  file: path=/home/ubuntu/{{domain}} state=directory mode=0755 owner=www-data group=www-data
+  become: yes
+  become_method: sudo
+
 - name: restart mysql
   service:
     name: mysql
