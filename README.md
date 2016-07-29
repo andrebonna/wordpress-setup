@@ -9,6 +9,7 @@ Requirements
 - You must have [ansible](https://www.ansible.com/) installed.
 - You must have [aws-cli](https://aws.amazon.com/cli/?nc1=h_ls) installed.
 - You must [configure your aws-cli](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html)
+- ansible-galaxy install -r requirements.yml
 
 
 Usage
