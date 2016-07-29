@@ -10,6 +10,12 @@
   notify:
   - restart apache2
 
+- name: a2enmod ssl
+  command: a2enmod ssl
+  become: true
+  notify:
+  - restart apache2
+
 - name: a2ensite {{domain}}
   command: a2ensite {{domain}}
   become: true

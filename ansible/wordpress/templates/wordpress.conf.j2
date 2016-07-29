@@ -18,3 +18,29 @@
     </Directory>
 </VirtualHost>
 
+
+<VirtualHost *:443>
+    ServerAdmin {{admin_email}}
+    ServerName {{domain}}
+    ServerAlias {{domain}} www.{{domain}}
+    DocumentRoot /home/ubuntu/{{domain}}
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/{{domain}}/cert.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{domain}}/privkey.pem
+    SSLCertificateChainFile /etc/letsencrypt/live/{{domain}}/chain.pem
+
+    <Directory /home/ubuntu/{{domain}}>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Require all granted
+    </Directory>
+    <Directory /home/ubuntu/{{domain}}/wp-content>
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+</VirtualHost>
+

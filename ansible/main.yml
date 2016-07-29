@@ -7,4 +7,5 @@
       action: ec2_facts
     - include: pre.yml
   roles:
+    - andrebonna.certbot
     - wordpress
