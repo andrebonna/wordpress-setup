@@ -35,6 +35,7 @@ Playbook Variables
     db_host: #Optional
     domain: #Domain name WITHOUT WWW
     aws_ec2_name: The Tag Name of AWS EC2 Machine
+    user_name: # EC2 Machine user (e.g. ubuntu)
 
 
 Example of Usage with Variables
