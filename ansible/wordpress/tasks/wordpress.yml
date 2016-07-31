@@ -1,4 +1,10 @@
 ---
+- name: chown wordpress
+  file: path=/home/{{user_name}}/{{domain}} state=directory mode=0755 owner={{user_name}} group={{user_name}}
+  become: yes
+  become_method: sudo
+
+
 - name: install wp-cli
   get_url:
     url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -6,35 +12,64 @@
     force: yes
     mode: "a+x"
 
+- name: copy wp cli config
+  template:
+    src: wp-cli.yml
+    dest: "/home/{{user_name}}/wp-cli.local.yml"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    mode: 0644
+
 - name: copy theme
   copy:
     src: files/parallax-one.zip
-    dest: /home/ubuntu/parallax-one.zip
-    owner: ubuntu
-    group: ubuntu
+    dest: "/home/{{user_name}}/parallax-one.zip"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
     mode: 0644
 
+- name: remove wp-config.php
+  file: path=/home/{{user_name}}/{{domain}}/wp-config.php state=absent
+
 - name: download wordpress
-  command: wp core download --path=/home/ubuntu/{{domain}}
-  become_user: ubuntu
+  command: wp core download
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "{{user_name}}"
   register: download_result
   failed_when: "'already' not in download_result.stderr and 'Success' not in download_result.stdout"
+  changed_when: "'Success' in download_result.stdout"
 
 - name: config wordpress
-  command: wp core config --path=/home/ubuntu/{{domain}} --dbname={{db_name}} --dbuser={{db_user}} --dbpass={{db_password}}
-  become_user: ubuntu
+  command: wp core config
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "{{user_name}}"
   register: config_result
   failed_when: "'already' not in config_result.stderr and 'Success' not in config_result.stdout"
+  changed_when: "'Success' in config_result.stdout"
 
 - name: install wordpress
-  command: wp core install --path=/home/ubuntu/{{domain}} --url={{domain}} --title={{title}} --admin_user={{admin_name}} --admin_password={{admin_password}} --admin_email={{admin_email}}
-  become_user: ubuntu
+  command: wp core install
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "{{user_name}}"
   register: install_result
   failed_when: "'already' not in install_result.stdout and 'Success' not in install_result.stdout"
+  changed_when: "'Success' in install_result.stdout"
+
 
 - name: install parallax one
-  command: wp theme install /home/ubuntu/parallax-one.zip --activate --path=/home/ubuntu/{{domain}}
-  become_user: ubuntu
+  command: wp theme install /home/{{user_name}}/parallax-one.zip
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "{{user_name}}"
   register: install_parallax_result
   failed_when: "'already' not in install_result.stdout and 'Success' not in install_parallax_result.stdout"
-  notify: chown wordpress
+  changed_when: "'Success' in install_parallax_result.stdout"
+
+
+- name: chown wordpress
+  file: path=/home/{{user_name}}/{{domain}} state=directory mode=0755 owner=www-data group=www-data
+  become: yes
+  become_method: sudo

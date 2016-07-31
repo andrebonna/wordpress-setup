@@ -1,0 +1,19 @@
+path: /home/ubuntu/{{domain}}
+url: {{domain}}
+
+core config:
+  dbname: {{db_name}}
+  dbuser: {{db_user}}
+  dbpass: {{db_password}}
+  extra-php: |
+    define( 'FORCE_SSL_ADMIN', true );
+
+
+core install:
+  title: {{title}}
+  admin_user: {{admin_name}}
+  admin_password: {{admin_password}}
+  admin_email: {{admin_email}}
+
+theme install:
+  activate: true

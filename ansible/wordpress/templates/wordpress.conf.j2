@@ -6,6 +6,8 @@
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
+    Redirect permanent / https://{{domain}}
+
     <Directory /home/ubuntu/{{domain}}>
         Options FollowSymLinks
         AllowOverride Limit Options FileInfo
