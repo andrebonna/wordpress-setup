@@ -28,6 +28,14 @@
     group: "{{user_name}}"
     mode: 0644
 
+- name: copy theme
+  copy:
+    src: files/replete.zip
+    dest: "/home/{{user_name}}/replete.zip"
+    owner: "{{user_name}}"
+    group: "{{user_name}}"
+    mode: 0644
+
 - name: remove wp-config.php
   file: path=/home/{{user_name}}/{{domain}}/wp-config.php state=absent
 
@@ -68,6 +76,14 @@
   failed_when: "'already' not in install_result.stdout and 'Success' not in install_parallax_result.stdout"
   changed_when: "'Success' in install_parallax_result.stdout"
 
+- name: install replete
+  command: wp theme install /home/{{user_name}}/replete.zip
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "{{user_name}}"
+  register: install_replete_result
+  failed_when: "'already' not in install_result.stdout and 'Success' not in install_replete_result.stdout"
+  changed_when: "'Success' in install_replete_result.stdout"
 
 - name: chown wordpress
   file: path=/home/{{user_name}}/{{domain}} state=directory mode=0755 owner=www-data group=www-data
