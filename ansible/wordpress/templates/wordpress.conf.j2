@@ -1,12 +1,12 @@
 <VirtualHost *:80>
     ServerAdmin {{admin_email}}
-    ServerName {{domain}}
+    ServerName {{domain}}/
     ServerAlias {{domain}} www.{{domain}}
-    DocumentRoot /home/ubuntu/{{domain}}
+    DocumentRoot /home/ubuntu/{{domain}}/
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    Redirect permanent / https://{{domain}}
+    Redirect permanent / https://{{domain}}/
 
     <Directory /home/ubuntu/{{domain}}>
         Options FollowSymLinks
@@ -23,9 +23,9 @@
 
 <VirtualHost *:443>
     ServerAdmin {{admin_email}}
-    ServerName {{domain}}
+    ServerName {{domain}}/
     ServerAlias {{domain}} www.{{domain}}
-    DocumentRoot /home/ubuntu/{{domain}}
+    DocumentRoot /home/ubuntu/{{domain}}/
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
