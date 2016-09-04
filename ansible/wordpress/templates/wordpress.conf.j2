@@ -1,7 +1,7 @@
 <VirtualHost *:80>
     ServerAdmin {{admin_email}}
     ServerName {{domain}}/
-    ServerAlias {{domain}} www.{{domain}}
+    ServerAlias {{domain}} {{www_domain}}
     DocumentRoot /home/ubuntu/{{domain}}/
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -24,7 +24,7 @@
 <VirtualHost *:443>
     ServerAdmin {{admin_email}}
     ServerName {{domain}}/
-    ServerAlias {{domain}} www.{{domain}}
+    ServerAlias {{domain}} {{www_domain}}
     DocumentRoot /home/ubuntu/{{domain}}/
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
