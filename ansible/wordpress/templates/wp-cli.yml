@@ -1,5 +1,5 @@
 path: /home/ubuntu/{{domain}}
-url: {{domain}}
+url: https://{{domain}}
 
 core config:
   dbname: {{db_name}}
