@@ -15,5 +15,8 @@ core install:
   admin_password: {{admin_password}}
   admin_email: {{admin_email}}
 
+core language install:
+  activate: true
+
 theme install:
   activate: true

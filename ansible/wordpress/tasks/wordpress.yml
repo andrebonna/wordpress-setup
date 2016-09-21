@@ -66,6 +66,15 @@
   failed_when: "'already' not in install_result.stdout and 'Success' not in install_result.stdout"
   changed_when: "'Success' in install_result.stdout"
 
+- name: install wordpress language pt_BR
+  command: wp core language install pt_BR
+  args:
+    chdir: "/home/{{user_name}}"
+  become_user: "www-data"
+  register: language_result
+  failed_when: "'already' not in language_result.stderr and 'Success' not in language_result.stdout"
+  changed_when: "'Success' in language_result.stdout"
+
 
 - name: install parallax one
   command: wp theme install /home/{{user_name}}/parallax-one.zip
@@ -86,6 +95,6 @@
   changed_when: "'Success' in install_replete_result.stdout"
 
 - name: chown wordpress
-  file: path=/home/{{user_name}}/{{domain}} state=directory mode=0755 owner=www-data group=www-data
+  file: path=/home/{{user_name}}/{{domain}} state=directory mode=0755 owner=www-data group=www-data recurse=yes
   become: yes
   become_method: sudo
