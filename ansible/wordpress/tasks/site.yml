@@ -28,3 +28,7 @@
     dest: "/etc/php5/apache2/php.ini"
   notify:
     - restart apache2
+
+- name: CronJob to Restart apache2 after running cert update
+  cron: name="renew cert restart" day=1 month="*/2" minute=5 hour=0
+        user="root" job="service apache2 restart"
